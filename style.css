@@ -34,14 +34,13 @@ body{
   color:#1f4763;
   position:relative;
 }
-.title:after{
-  content:'';
-  display:block;
-  height:4px;
-  width:80px;
-  margin:12px auto 0;
+.title-underline{
+  height:6px;
+  width:84px;
+  margin:8px auto 18px;
+  border-radius:999px;
   background: linear-gradient(90deg,#2b6cb0,#6b46c1);
-  border-radius:4px;
+  box-shadow: 0 6px 14px rgba(107,70,193,0.15);
 }
 
 .output-row{display:flex;gap:8px;align-items:center;margin-bottom:18px}
@@ -60,8 +59,11 @@ body{
   padding:10px 12px;
   border-radius:8px;
   cursor:pointer;
+  transition: background-color 180ms ease, transform 120ms ease, color 160ms ease;
 }
 .icon-btn i{font-size:16px}
+.icon-btn:hover{background:#e6f0fb;color:#0f3b63;transform:translateY(-1px)}
+
 
 .controls{background:#fbfdff;border-radius:12px;padding:18px;margin-bottom:18px;border:1px solid #eef6fb}
 .control-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
@@ -78,16 +80,26 @@ input[type=range]{width:180px}
   padding:14px 18px;
   border-radius:12px;
   border:0;color:#fff;font-weight:600;font-size:16px;
-  background:var(--accent);
-  box-shadow: 0 6px 18px rgba(107,70,193,0.25);
+  background: linear-gradient(90deg,#2b6cb0,#6b46c1);
+  box-shadow: 0 8px 24px rgba(43,54,92,0.12), inset 0 -6px 18px rgba(0,0,0,0.06);
   cursor:pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease;
 }
+.generate-btn:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(43,54,92,0.18)}
 .generate-btn i{margin-right:10px}
+
 
 .strength-container{margin-top:18px}
 .strength-label{display:flex;justify-content:space-between;color:#2b556e;margin-bottom:8px}
 .strength-track{height:12px;background:#eef3f6;border-radius:10px;overflow:hidden}
-.strength-bar{height:100%;width:0;background:#fbd38d;transition:width 300ms ease,background-color 300ms ease}
+.strength-bar{height:100%;width:0;background:#fbd38d;transition:width 400ms cubic-bezier(.2,.9,.2,1),background-color 300ms ease}
+.strength-bar.weak{background:#fc8181}
+.strength-bar.medium{background:#fbd38d}
+.strength-bar.strong{background:#68d391}
+
+/* warning */
+.checkbox-warning{background:#fff3cd;border:1px solid #ffecb5;color:#8a5a00;padding:10px;border-radius:8px;margin-bottom:10px;font-size:14px;display:block;text-align:center}
+.checkbox-warning[hidden]{display:none}
 
 /* small screens */
 @media (max-width:420px){
