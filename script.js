@@ -9,6 +9,7 @@ const generateButton = document.getElementById("generate-btn");
 const copyButton = document.getElementById("copy-btn");
 const strengthBar = document.querySelector(".strength-bar");
 const strengthLabel = document.getElementById("strength-label");
+const checkboxWarning = document.getElementById('checkbox-warning');
 
 //所使用到的字符；
 const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -19,6 +20,21 @@ const symbolCharacters = "!@#$%^&*()-_=+[]{}|;:,.<>?/";
 lengthSlider.addEventListener("input", () => {
   lengthDisplay.textContent = lengthSlider.value;
 });
+
+// update generate button enabled state when checkboxes change
+[uppercaseCheckbox, lowercaseCheckbox, numbersCheckbox, symbolsCheckbox].forEach(cb => {
+  cb.addEventListener('change', updateCheckboxState);
+});
+
+function updateCheckboxState(){
+  const anyChecked = uppercaseCheckbox.checked || lowercaseCheckbox.checked || numbersCheckbox.checked || symbolsCheckbox.checked;
+  generateButton.disabled = !anyChecked;
+  if(!anyChecked){
+    checkboxWarning.hidden = false;
+  } else {
+    checkboxWarning.hidden = true;
+  }
+}
 
 // 给按钮添加事件；
 generateButton.addEventListener("click", makePassword);
@@ -104,24 +120,24 @@ function updateStrengthMeter(password) {
     strengthScore = Math.min(strengthScore, 40);
   }
 
-  const safeScore = Math.max(5, Math.min(100, strengthScore));
+  const safeScore = Math.max(0, Math.min(100, strengthScore));
   strengthBar.style.width = safeScore + "%";
 
   let strengthLabelText = "";
-  let barColor = "";
+  // set class for color styling
+  strengthBar.classList.remove('weak','medium','strong');
 
   if (strengthScore < 40) {
-    barColor = "#fc8181";
     strengthLabelText = "Weak";
+    strengthBar.classList.add('weak');
   } else if (strengthScore < 70) {
-    barColor = "#fbd38d";
     strengthLabelText = "Medium";
+    strengthBar.classList.add('medium');
   } else {
-    barColor = "#68d391";
     strengthLabelText = "Strong";
+    strengthBar.classList.add('strong');
   }
 
-  strengthBar.style.backgroundColor = barColor;
   strengthLabel.textContent = strengthLabelText;
 }
 
@@ -133,6 +149,7 @@ window.addEventListener("DOMContentLoaded", () => {
   updateStrengthMeter("");
 
   // generate initial password
+  updateCheckboxState();
   makePassword();
 });
 
